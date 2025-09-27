@@ -1,4 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import agricultor from "../../assets/agricultor.jpg";
+import transportador from "../../assets/transportador.jpg";
+import comprador from "../../assets/comprador.jpg";
+
+
 
 const SelectRole = () => {
   const navigate = useNavigate();
@@ -6,17 +11,20 @@ const SelectRole = () => {
   const roles = [
     {
       key: "agricultor",
-      title: "Vendedor",
-      subtitle: "Venda seus produtos",
+      title: "Agricultor",
+      image: agricultor,
+      subtitle: "Cultive seus produtos",
     },
     {
       key: "transportador",
       title: "Transportador",
+      image: transportador,
       subtitle: "Transporte produtos",
     },
     {
       key: "comprador",
       title: "Comprador",
+      image: comprador,
       subtitle: "Compre produtos",
     },
   ];
@@ -38,9 +46,9 @@ const SelectRole = () => {
               {/* Div da Imagem */}
               <div className="flex-shrink-0 min-w-24 h-24 flex items-center justify-center bg-[#05291C] rounded-full border border-white/20">
                 <img
-                  src={`/images/${role.key}.png`} // Exemplo: /images/agricultor.png
+                  src={role.image}
                   alt={role.title}
-                  className="w-8 h-8 object-contain"
+                  className="w-full h-full object-contain rounded-full"
                 />
               </div>
 

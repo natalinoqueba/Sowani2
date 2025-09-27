@@ -3,14 +3,15 @@ import { createUserWithEmailAndPassword } from "firebase/auth"
 import { auth, db } from "../../firebase"
 import { useNavigate, useLocation } from "react-router-dom"
 import { doc, setDoc } from "firebase/firestore"
+import agricultor from "../../assets/agricultor.jpg";
+import transportador from "../../assets/transportador.jpg";
+import comprador from "../../assets/comprador.jpg";
 
 const Register = () => {
   const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
   const [password, setPassword] = useState("")
   const [role, setRole] = useState("")
-  const [phone, setPhone] = useState("")
-  const [address, setAddress] = useState("")
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
 
@@ -34,10 +35,10 @@ const Register = () => {
     const newErrors = {}
 
     if (!name.trim()) newErrors.name = "O campo Nome é obrigatório."
-    if (!password.trim()) newErrors.password = "O campo Senha é obrigatório."
     if (!phone.trim()) newErrors.phone = "O campo Telefone é obrigatório."
     else if (!validatePhone(phone))
-      newErrors.phone = "Número de telefone inválido. Deve seguir o padrão moçambicano (+258...)."
+      newErrors.phone = "Número inválido. Use o padrão moçambicano (+258...)."
+    if (!password.trim()) newErrors.password = "O campo Senha é obrigatório."
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
@@ -50,17 +51,15 @@ const Register = () => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
-        email || `${Date.now()}@placeholder.com`,
+        `${Date.now()}@placeholder.com`, // email fake
         password
       )
       const user = userCredential.user
 
       await setDoc(doc(db, "users", user.uid), {
         name,
-        email: email || "",
-        role,
         phone,
-        address,
+        role,
         createdAt: new Date(),
       })
 
@@ -85,11 +84,11 @@ const Register = () => {
     <div className="flex items-center justify-center min-h-screen bg-[#05291C] p-8">
       <div className="flex flex-col items-center w-full max-w-md rounded-2xl px-8 py-10 border border-[#103a2f] bg-[#112C25]/70 backdrop-blur-md shadow-lg text-white text-sm">
 
-        <div className="w-20 h-20 mb-4 flex items-center justify-center bg-[#05291C] rounded-full border border-white/20">
+        <div className="w-32 h-32 mb-4 flex items-center justify-center bg-[#05291C] rounded-full border border-white/20">
           <img
-            src={`/images/${role}.png`}
+            src={role === "agricultor" ? agricultor : role === "transportador" ? transportador : comprador}
             alt={roleNames[role]}
-            className="w-12 h-12 object-contain"
+            className="w-full h-full object-contain rounded-full"
           />
         </div>
 
@@ -113,15 +112,17 @@ const Register = () => {
           />
           {errors.name && <p className="text-red-500 text-xs mb-2">{errors.name}</p>}
 
-          {/* Email */}
-          <label className="block mb-1 font-medium text-slate-300">E-mail</label>
+          {/* Telefone */}
+          <label className="block mb-1 font-medium text-slate-300">Telefone</label>
           <input
-            type="email"
-            placeholder="Digite o seu e-mail (opcional)"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-3 mb-4 bg-[#05291C] border border-slate-700 rounded-xl focus:outline-none focus:ring-2 transition focus:ring-[#BF7F17] focus:border-[#BF7F17] placeholder-slate-500"
+            type="text"
+            placeholder="Digite seu número de telefone"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            className={`w-full p-3 mb-1 bg-[#05291C] border rounded-xl focus:outline-none focus:ring-2 transition focus:ring-[#BF7F17] focus:border-[#BF7F17] placeholder-slate-500
+              ${errors.phone ? "border-red-500" : "border-slate-700"}`}
           />
+          {errors.phone && <p className="text-red-500 text-xs mb-2">{errors.phone}</p>}
 
           {/* Senha */}
           <label className="block mb-1 font-medium text-slate-300">Senha</label>
@@ -134,31 +135,6 @@ const Register = () => {
               ${errors.password ? "border-red-500" : "border-slate-700"}`}
           />
           {errors.password && <p className="text-red-500 text-xs mb-2">{errors.password}</p>}
-
-          {/* Campos do agricultor */}
-          {role === "agricultor" && (
-            <>
-              <label className="block mb-1 font-medium text-slate-300">Telefone</label>
-              <input
-                type="text"
-                placeholder="Digite seu número de telefone"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className={`w-full p-3 mb-1 bg-[#05291C] border rounded-xl focus:outline-none focus:ring-2 transition focus:ring-[#BF7F17] focus:border-[#BF7F17] placeholder-slate-500
-                  ${errors.phone ? "border-red-500" : "border-slate-700"}`}
-              />
-              {errors.phone && <p className="text-red-500 text-xs mb-2">{errors.phone}</p>}
-
-              <label className="block mb-1 font-medium text-slate-300">Endereço</label>
-              <input
-                type="text"
-                placeholder="Digite o endereço"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                className="w-full p-3 mb-4 bg-[#05291C] border border-slate-700 rounded-xl focus:outline-none focus:ring-2 transition focus:ring-[#BF7F17] focus:border-[#BF7F17] placeholder-slate-500"
-              />
-            </>
-          )}
 
           <button
             type="submit"

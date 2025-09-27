@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
+import { logo } from "../../assets/assets";
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -17,9 +18,9 @@ const Landing = () => {
   return (
     <div className="min-h-screen bg-[#02241B] text-white flex flex-col items-center justify-center text-center p-8 relative">
       {/* Logo */}
-      <div className="text-4xl font-bold bg-gradient-to-tr from-[#BF7F17] to-[#576C40] w-32 h-32 rounded-full flex items-center justify-center mb-5">
-        SW
-      </div>
+      <div className="w-32 h-32 rounded-full mb-5">
+        <img src={logo} alt="Logo" className="w-full h-full rounded-full" />
+      </div>  
 
       {/* Títulos */}
       <h1 className="text-3xl font-bold mb-2">SoWani</h1>
@@ -48,7 +49,7 @@ const Landing = () => {
       {/* Botão de Suporte */}
       <button
         onClick={() => setShowSupport(!showSupport)}
-        className="fixed bottom-30 left-1/2 -translate-x-1/2 bg-[#DC2626] text-white font-bold w-16 h-16 rounded-full flex items-center justify-center shadow-lg transition transform hover:scale-110 hover:bg-red-700"
+        className="bg-[#DC2626] text-white font-bold w-16 h-16 rounded-full flex items-center justify-center shadow-lg transition transform hover:scale-110 hover:bg-red-700"
       >
         ?
       </button>
