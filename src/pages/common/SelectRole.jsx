@@ -13,7 +13,7 @@ const SelectRole = () => {
       key: "agricultor",
       title: "Agricultor",
       image: agricultor,
-      subtitle: "Cultive seus produtos",
+      subtitle: "Venda seus produtos",
     },
     {
       key: "transportador",

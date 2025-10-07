@@ -18,9 +18,13 @@ const Landing = () => {
   return (
     <div className="min-h-screen bg-[#02241B] text-white flex flex-col items-center justify-center text-center p-8 relative">
       {/* Logo */}
-      <div className="w-32 h-32 rounded-full mb-5">
-        <img src={logo} alt="Logo" className="w-full h-full rounded-full" />
-      </div>  
+      <div className="w-32 h-32 rounded-full mb-5 bg-gradient-to-br from-[#fe9300] to-[#0d8467] flex items-center justify-center overflow-hidden shadow-lg">
+        <img
+          src={logo}
+          alt="Logo"
+          className="w-full h-full rounded-full object-cover opacity-95"
+        />
+      </div>
 
       {/* Títulos */}
       <h1 className="text-3xl font-bold mb-2">SoWani</h1>

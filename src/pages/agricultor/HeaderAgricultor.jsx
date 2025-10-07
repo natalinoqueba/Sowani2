@@ -5,7 +5,7 @@ const HeaderAgricultor = ({ userData }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex items-center justify-between p-6 bg-gradient-to-r from-green-900 via-green-900 to-green-900 shadow-lg">
+    <div className="flex items-center justify-between p-6 bg-[#1A3A31] ">
       <div className="flex items-center space-x-3">
         {/* Avatar */}
         <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center shadow-md">

@@ -1,11 +1,11 @@
-import feedIcon from "../../assets/feedIcon.jpg";
-import chatIcon from "../../assets/chatIcon.jpg";
-import entregasIcon from "../../assets/entregasIcon.jpg";
-import statsIcon from "../../assets/statsIcon.jpg";
+import { home } from "../../assets/assets";
+import { chatIcon } from "../../assets/assets";
+import { entregasIcon } from "../../assets/assets";
+import { statsIcon } from "../../assets/assets";
 
 const TabsAgricultor = ({ activeTab, setActiveTab }) => {
   const tabs = [
-    { name: "Feed", icon: feedIcon },
+    { name: "Feed", icon: home },
     { name: "Chat", icon: chatIcon },
     { name: "Entregas", icon: entregasIcon },
     { name: "Stats", icon: statsIcon },
@@ -26,7 +26,9 @@ const TabsAgricultor = ({ activeTab, setActiveTab }) => {
           <img
             src={tab.icon}
             alt={tab.name}
-            className={`w-7 h-7 rounded-2xl ${activeTab === tab.name ? "opacity-100" : "opacity-60"}`}
+            className={`w-7 h-7 rounded-2xl ${
+              activeTab === tab.name ? "opacity-100" : "opacity-60"
+            }`}
           />
         </button>
       ))}
