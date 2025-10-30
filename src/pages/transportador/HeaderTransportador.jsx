@@ -1,8 +1,5 @@
-import { useNavigate } from "react-router-dom";
-
-const HeaderTransportador = ({ name }) => {
-  const navigate = useNavigate();
-  const displayName = name || "Transportador"; // fallback caso name seja undefined
+const HeaderTransportador = ({ name, onOpenSettings }) => {
+  const displayName = name || "Transportador";
 
   return (
     <div className="flex items-center justify-between p-6 bg-gradient-to-r from-green-900 via-green-900 to-green-900 shadow-lg">
@@ -12,8 +9,10 @@ const HeaderTransportador = ({ name }) => {
         </div>
         <h1 className="text-2xl font-bold text-white">{displayName}</h1>
       </div>
+
+      {/* ✅ Abre o painel de configurações */}
       <button
-        onClick={() => navigate("/settings")}
+        onClick={onOpenSettings}
         className="p-2 rounded-full bg-black/20 hover:bg-black/30 transition"
         title="Configurações"
       >

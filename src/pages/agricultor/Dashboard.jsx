@@ -12,6 +12,7 @@ import {
   updateDoc,
   getDoc,
 } from "firebase/firestore";
+
 import Feed from "./Feed";
 import Chat from "./Chat";
 import Entregas from "./Entregas";
@@ -20,6 +21,7 @@ import AddProductPopup from "./AddProductPopup";
 import EditProductModal from "./EditProductModal";
 import HeaderAgricultor from "./HeaderAgricultor";
 import TabsAgricultor from "./TabsAgricultor";
+import SettingsPanel from "../common/settings/SettingsPanel"; // Painel de definições
 
 const DashboardAgricultor = () => {
   const [products, setProducts] = useState([]);
@@ -27,7 +29,9 @@ const DashboardAgricultor = () => {
   const [showAddPopup, setShowAddPopup] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [userData, setUserData] = useState(null);
+  const [settingsOpen, setSettingsOpen] = useState(false); // Estado do painel de configurações
 
+  // Busca produtos do agricultor
   const fetchProducts = async () => {
     if (!auth.currentUser) return;
     const q = query(
@@ -40,6 +44,7 @@ const DashboardAgricultor = () => {
     );
   };
 
+  // Busca dados do usuário
   const fetchUserData = async () => {
     if (!auth.currentUser) return;
     const userRef = doc(db, "users", auth.currentUser.uid);
@@ -54,6 +59,7 @@ const DashboardAgricultor = () => {
     fetchUserData();
   }, []);
 
+  // Adicionar produto
   const handleAdd = async (product) => {
     await addDoc(collection(db, "products"), {
       ...product,
@@ -63,11 +69,13 @@ const DashboardAgricultor = () => {
     fetchProducts();
   };
 
+  // Deletar produto
   const handleDelete = async (id) => {
     await deleteDoc(doc(db, "products", id));
     fetchProducts();
   };
 
+  // Atualizar produto
   const handleUpdate = async (product) => {
     await updateDoc(doc(db, "products", product.id), product);
     fetchProducts();
@@ -75,8 +83,11 @@ const DashboardAgricultor = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-green-900 to-gray-900 text-white">
-      {/* Header separado */}
-      <HeaderAgricultor userData={userData} />
+      {/* Header com botão de configurações */}
+      <HeaderAgricultor 
+        userData={userData} 
+        onOpenSettings={() => setSettingsOpen(true)} 
+      />
 
       {/* Conteúdo das abas */}
       <div className="px-4 mb-32 mt-6">
@@ -90,12 +101,10 @@ const DashboardAgricultor = () => {
         {activeTab === "Chat" && <Chat />}
         {activeTab === "Entregas" && <Entregas />}
         {activeTab === "Stats" && <Stats products={products} />}
-
-        {/* Outlet para rotas filhas */}
         <Outlet />
       </div>
 
-      {/* Botão flutuante adicionar produto */}
+      {/* Botão flutuante para adicionar produto */}
       {activeTab === "Feed" && (
         <button
           onClick={() => setShowAddPopup(true)}
@@ -105,9 +114,14 @@ const DashboardAgricultor = () => {
         </button>
       )}
 
-      {/* Tabs separadas */}
-      <TabsAgricultor activeTab={activeTab} setActiveTab={setActiveTab} />
+      {/* Tabs com função para abrir painel de configurações */}
+      <TabsAgricultor 
+        activeTab={activeTab} 
+        setActiveTab={setActiveTab} 
+        onOpenSettings={() => setSettingsOpen(true)} 
+      />
 
+      {/* Popups */}
       <AddProductPopup
         isOpen={showAddPopup}
         onClose={() => setShowAddPopup(false)}
@@ -120,6 +134,12 @@ const DashboardAgricultor = () => {
           onUpdate={handleUpdate}
         />
       )}
+
+      {/* Painel de Configurações */}
+      <SettingsPanel 
+        open={settingsOpen} 
+        onClose={() => setSettingsOpen(false)} 
+      />
     </div>
   );
 };

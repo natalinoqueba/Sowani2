@@ -6,7 +6,8 @@ import chatIcon from "./chatIcon.png";
 import entregasIcon from "./entregasIcon.png";
 import statsIcon from "./statsIcon.png";
 import home from "./home.png";
-
+import settingsIcon from './settingsIcon.png';
+import carinha from "./carinha.png";
 export {
   logo,
   agricultor,
@@ -16,6 +17,8 @@ export {
   entregasIcon,
   statsIcon,
   home,
+  settingsIcon,
+  carinha,
 };
 
 export default {
@@ -27,4 +30,6 @@ export default {
   entregasIcon,
   statsIcon,
   home,
+  settingsIcon,
+  
 };
