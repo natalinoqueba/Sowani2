@@ -1,18 +1,9 @@
-import { useState } from "react";
+import { /*useState*/ } from "react";
 import { ArrowLeft, Volume2, Eye, Type } from "lucide-react";
+import { useAccessibility } from "../../../context/AccessibilityContext";
 
 const Accessibility = ({ onBack }) => {
-  const [settings, setSettings] = useState({
-    screenReader: false,
-    audioPortuguese: false,
-    audioEmakhuwa: false,
-    highContrast: false,
-    largeText: false
-  });
-
-  const toggle = (key) => {
-    setSettings({ ...settings, [key]: !settings[key] });
-  };
+  const { settings, toggle } = useAccessibility();
 
   return (
     <div className="p-4 text-white">

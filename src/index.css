@@ -1,1 +1,35 @@
 @import "tailwindcss";
+
+/* Accessibility overrides - when classes are added to <html> these take effect globally */
+html.accessibility-large-text {
+	/* increase root font size so rem-based sizes scale up */
+	font-size: 18px;
+}
+
+/* High contrast: force darker background and bright text for readability */
+html.accessibility-high-contrast body {
+	background-color: #000 !important;
+	color: #fff !important;
+}
+
+html.accessibility-high-contrast a,
+html.accessibility-high-contrast button,
+html.accessibility-high-contrast input,
+html.accessibility-high-contrast select,
+html.accessibility-high-contrast textarea {
+	color: #ffd07a !important;
+	border-color: #ffd07a !important;
+}
+
+/* Make sure common background cards have sufficient contrast */
+html.accessibility-high-contrast .bg-white\/5 {
+	background-color: rgba(255,255,255,0.06) !important;
+}
+
+/* Buttons and primary actions in high contrast */
+html.accessibility-high-contrast .bg-\#E18003,
+html.accessibility-high-contrast .bg-\#e18003 {
+	background-color: #ffb84d !important;
+	color: #000 !important;
+}
+

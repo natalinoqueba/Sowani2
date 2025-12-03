@@ -1,6 +1,10 @@
 // src/firebase.js
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import {
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+} from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -10,7 +14,7 @@ const firebaseConfig = {
   storageBucket: "sowani-cb945.firebasestorage.app",
   messagingSenderId: "386338102479",
   appId: "1:386338102479:web:7d166cc1c02bccdd8bebba",
-  measurementId: "G-V3BGP3ML7J"
+  measurementId: "G-V3BGP3ML7J",
 };
 
 const app = initializeApp(firebaseConfig);
