@@ -41,9 +41,7 @@ const AddProductPopup = ({ isOpen, onClose, onAdd }) => {
     setErrorAI("")
     setLoadingAI(true)
     try {
-      // options: you can pass language hints
       const result = await analyzeImageFile(imageFile, { lang: "pt" })
-      // merge suggestions but keep possibility to edit
       if (result.name) setName(result.name)
       if (result.price) setPrice(result.price)
       if (result.quantity) setQuantity(result.quantity)
@@ -65,49 +63,141 @@ const AddProductPopup = ({ isOpen, onClose, onAdd }) => {
 
   if (!isOpen) return null
 
-  return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <form className="bg-[#112C25] p-6 rounded-xl w-96 flex flex-col space-y-3" onSubmit={handleSubmit}>
-        <h2 className="text-xl font-bold text-white">Adicionar Produto</h2>
-        <p className="text-gray-300 text-sm mb-2">
-          Faça upload de uma imagem e clique em "Analisar com IA" para preencher automaticamente (você pode editar os campos)
-        </p>
+  const isFormComplete =
+    name.trim() !== "" &&
+    String(price).trim() !== "" &&
+    String(quantity).trim() !== "" &&
+    category.trim() !== "" &&
+    description.trim() !== "" &&
+    imageFile !== null
 
-        <div className="flex items-center gap-3">
-          <input ref={inputRef} type="file" accept="image/*" onChange={handleFileChange}
-                 className="text-sm text-white" />
-          {imagePreview && (
-            <div className="w-20 h-20 rounded overflow-hidden border border-white/20">
-              <img src={imagePreview} alt="preview" className="object-cover w-full h-full" />
-            </div>
-          )}
-          {imagePreview && (
-            <button type="button" onClick={removeImage} className="px-2 py-1 bg-red-600 rounded text-white text-sm">Remover</button>
-          )}
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <form className="bg-[#112C25] p-8 rounded-3xl w-full max-w-md flex flex-col space-y-3" onSubmit={handleSubmit}>
+        <h2 className="text-2xl font-bold text-white">Adicionar Produto</h2>
+
+        {/* Campo de Imagem Retangular */}
+        <div className="w-full">
+          <div className="relative w-full h-42 bg-white/5 border-2 border-dashed border-white/30 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:bg-white/10 transition group">
+            <input 
+              ref={inputRef} 
+              type="file" 
+              accept="image/*" 
+              onChange={handleFileChange}
+              className="absolute inset-0 opacity-0 cursor-pointer rounded-2xl"
+            />
+            {imagePreview ? (
+              <>
+                <img src={imagePreview} alt="preview" className="w-full h-full object-cover rounded-2xl" />
+                <button 
+                  type="button" 
+                  onClick={removeImage} 
+                  className="absolute top-2 right-2 px-3 py-1 bg-red-600 rounded-full text-white text-xs font-semibold hover:bg-red-700 transition"
+                >
+                  ✕
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="text-4xl mb-2">📷</div>
+                <p className="text-white font-semibold text-center">Carregar Imagem</p>
+                <p className="text-gray-400 text-xs text-center mt-1">Clique para selecionar</p>
+              </>
+            )}
+          </div>
+          {/* <p className="text-gray-300 text-sm mt-2">
+            Faça upload de uma imagem e clique em "Analisar com IA" para preencher automaticamente
+          </p> */}
         </div>
 
-        <div className="flex items-center gap-2">
-          <button type="button" onClick={handleAnalyze} disabled={loadingAI}
-                  className="px-3 py-2 rounded bg-[#E18003] text-white">
+        {/* Botão Analisar com IA */}
+        <div className="flex flex-col gap-2">
+          <button 
+            type="button" 
+            onClick={handleAnalyze} 
+            disabled={loadingAI || !imageFile}
+            className="w-full px-4 py-3 rounded-2xl bg-[#E18003] hover:bg-[#d97302] disabled:bg-gray-500 text-white font-semibold transition"
+          >
             {loadingAI ? "Analisando..." : "Analisar com IA"}
           </button>
-          {errorAI && <span className="text-red-400 text-sm">{errorAI}</span>}
+          {errorAI && <span className="text-red-400 text-sm text-center">{errorAI}</span>}
         </div>
 
-        <input placeholder="Nome do produto" value={name} onChange={e => setName(e.target.value)}
-               className="p-2 rounded text-white border border-white/30"/>
-        <input type="number" placeholder="Preço (MZN)" value={price} onChange={e => setPrice(e.target.value)}
-               className="p-2 rounded text-white border border-white/30"/>
-        <input type="number" placeholder="Quantidade" value={quantity} onChange={e => setQuantity(e.target.value)}
-               className="p-2 rounded text-white border border-white/30"/>
-        <input placeholder="Categoria" value={category} onChange={e => setCategory(e.target.value)}
-               className="p-2 rounded text-white border border-white/30"/>
-        <textarea placeholder="Descrição" value={description} onChange={e => setDescription(e.target.value)}
-                  className="p-2 rounded text-white border border-white/30 resize-none"/>
+        {/* Nome */}
+        <div>
+          <label className="text-sm text-gray-300 mb-1 block">Nome do Produto</label>
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full p-3 rounded-2xl text-white bg-white/10 border border-white/20 focus:border-[#E18003] focus:outline-none focus:ring-2 focus:ring-[#E18003]/30 transition"
+          />
+        </div>
 
-        <div className="flex justify-end space-x-2">
-          <button type="button" onClick={() => { resetForm(); onClose(); }} className="px-4 py-2 rounded bg-gray-600">Cancelar</button>
-          <button type="submit" className="px-4 py-2 rounded bg-green-600 text-white">Salvar</button>
+        {/* Preço e Quantidade (lado a lado) */}
+        <div className="flex gap-3">
+          <div className="flex-1">
+            <label className="text-sm text-gray-300 mb-1 block">Preço (MZN)</label>
+            <input
+              type="number"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              className="w-full p-3 rounded-2xl text-white bg-white/10 border border-white/20 focus:border-[#E18003] focus:outline-none focus:ring-2 focus:ring-[#E18003]/30 transition"
+            />
+          </div>
+          <div className="flex-1">
+            <label className="text-sm text-gray-300 mb-1 block">Quantidade</label>
+            <input
+              type="number"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
+              className="w-full p-3 rounded-2xl text-white bg-white/10 border border-white/20 focus:border-[#E18003] focus:outline-none focus:ring-2 focus:ring-[#E18003]/30 transition"
+            />
+          </div>
+        </div>
+
+        {/* Categoria */}
+        <div>
+          <label className="text-sm text-gray-300 mb-1 block">Categoria</label>
+          <input
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="w-full p-3 rounded-2xl text-white bg-white/10 border border-white/20 focus:border-[#E18003] focus:outline-none focus:ring-2 focus:ring-[#E18003]/30 transition"
+          />
+        </div>
+
+        {/* Descrição */}
+        <div>
+          <label className="text-sm text-gray-300 mb-1 block">Descrição</label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full p-3 rounded-2xl text-white bg-white/10 border border-white/20 focus:border-[#E18003] focus:outline-none focus:ring-2 focus:ring-[#E18003]/30 transition resize-none h-24"
+          />
+        </div>
+
+        {/* Botões de Ação */}
+        <div className="flex gap-3 pt-4">
+          <button
+            type="button"
+            onClick={() => {
+              resetForm();
+              onClose();
+            }}
+            className="flex-1 px-4 py-3 rounded-2xl bg-[#FA8900] hover:bg-[#d97302] text-white font-semibold transition"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            disabled={!isFormComplete}
+            className={`flex-1 px-4 py-3 rounded-2xl font-semibold transition ${
+              isFormComplete
+                ? "bg-green-600 hover:bg-green-700 text-white"
+                : "bg-gray-600 text-gray-300 cursor-not-allowed"
+            }`}
+          >
+            Salvar
+          </button>
         </div>
       </form>
     </div>

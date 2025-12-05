@@ -1,11 +1,56 @@
-const Feed = ({ products, onEdit, onDelete }) => (
-  <div className="px-4">
+const Feed = ({ products, onEdit, onDelete, searchTerm = "", onTabChange }) => {
+  const filteredProducts = products.filter((p) =>
+    p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    p.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    p.description?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  return (
+    <div className="px-4">
+    {/* Cards de Estatísticas */}
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+      {/* Produtos */}
+      <div className="bg-black/20 rounded-2xl p-4 border border-white/30 text-center cursor-pointer hover:bg-black/30 transition">
+        <div className="text-orange-400 text-2xl mb-2">📦</div>
+        <div className="text-3xl font-bold text-white">{products.length}</div>
+        <div className="text-gray-300 text-sm">Produtos</div>
+      </div>
+
+      {/* Pedidos */}
+      <div
+        onClick={() => onTabChange?.("Entregas")}
+        className="bg-black/20 rounded-2xl p-4 border border-white/30 text-center cursor-pointer hover:bg-black/30 transition"
+      >
+        <div className="text-orange-400 text-2xl mb-2">📈</div>
+        <div className="text-3xl font-bold text-white">{products.reduce((sum, p) => sum + (p?.sold || 0), 0)}</div>
+        <div className="text-gray-300 text-sm">Pedidos</div>
+      </div>
+
+      {/* Visualizações */}
+      <div
+        onClick={() => onTabChange?.("Stats")}
+        className="bg-black/20 rounded-2xl p-4 border border-white/30 text-center cursor-pointer hover:bg-black/30 transition"
+      >
+        <div className="text-green-400 text-2xl mb-2">👁️</div>
+        <div className="text-3xl font-bold text-white">{products.reduce((sum, p) => sum + (p?.visualizacoes || 0), 0)}</div>
+        <div className="text-gray-300 text-sm">Visualizações</div>
+      </div>
+
+      {/* Avaliações */}
+      <div className="bg-black/20 rounded-2xl p-4 border border-white/30 text-center">
+        <div className="text-yellow-400 text-2xl mb-2">⭐</div>
+        <div className="text-3xl font-bold text-white">4.5</div>
+        <div className="text-gray-300 text-sm">Avaliações</div>
+      </div>
+    </div>
+
     {/* Título do Feed */}
     <h2 className="text-2xl font-bold text-white mb-4">Meus Produtos</h2>
 
     {/* Lista de Produtos */}
     <div className="space-y-4">
-      {products.map((p) => (
+      {filteredProducts.length > 0 ? (
+        filteredProducts.map((p) => (
         <div
           key={p.id}
           className="bg-black/20 rounded-2xl border border-white/20 overflow-hidden p-4 flex justify-between items-center hover:shadow-lg transition"
@@ -57,9 +102,15 @@ const Feed = ({ products, onEdit, onDelete }) => (
             </button>
           </div>
         </div>
-      ))}
+      ))
+      ) : (
+        <div className="text-center py-12">
+          <p className="text-gray-400 text-lg">Nenhum produto encontrado</p>
+        </div>
+      )}
     </div>
   </div>
-);
+  );
+};
 
 export default Feed;

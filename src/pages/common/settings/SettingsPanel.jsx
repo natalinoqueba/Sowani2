@@ -9,6 +9,7 @@ import {
   ArrowLeft,
   Accessibility as AccessibilityIcon,
 } from "lucide-react";
+import { useAuth } from "../../../context/AuthContext";
 
 import Profile from "./Profile";
 import Accessibility from "./Accessibility";
@@ -20,6 +21,7 @@ import Logout from "./Logout";
 const SettingsPanel = ({ open, onClose }) => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentLanguage, setCurrentLanguage] = useState("Português");
+  const { user } = useAuth();
 
   if (!open) return null;
 
@@ -126,7 +128,7 @@ const SettingsPanel = ({ open, onClose }) => {
         {/* Nome do utilizador */}
         {selectedCard === null && (
           <p className="text-white/70 text-center mb-6">
-            Olá, <span className="font-semibold text-white">Arsénio Abreu Joaquim</span>
+            Olá, <span className="font-semibold text-white">{user?.displayName || user?.email || "Utilizador"}</span>
           </p>
         )}
 

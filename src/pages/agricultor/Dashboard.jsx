@@ -30,6 +30,7 @@ const DashboardAgricultor = () => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [userData, setUserData] = useState(null);
   const [settingsOpen, setSettingsOpen] = useState(false); // Estado do painel de configurações
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Busca produtos do agricultor
   const fetchProducts = async () => {
@@ -82,11 +83,13 @@ const DashboardAgricultor = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-green-900 to-gray-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br bg-[#00241A] text-white">
       {/* Header com botão de configurações */}
-      <HeaderAgricultor 
-        userData={userData} 
-        onOpenSettings={() => setSettingsOpen(true)} 
+      <HeaderAgricultor
+        userData={userData}
+        onOpenSettings={() => setSettingsOpen(true)}
+        searchTerm={searchTerm}
+        onSearchChange={(e) => setSearchTerm(e.target.value)}
       />
 
       {/* Conteúdo das abas */}
@@ -96,6 +99,8 @@ const DashboardAgricultor = () => {
             products={products}
             onEdit={setEditingProduct}
             onDelete={handleDelete}
+            searchTerm={searchTerm}
+            onTabChange={setActiveTab}
           />
         )}
         {activeTab === "Chat" && <Chat />}
@@ -115,10 +120,10 @@ const DashboardAgricultor = () => {
       )}
 
       {/* Tabs com função para abrir painel de configurações */}
-      <TabsAgricultor 
-        activeTab={activeTab} 
-        setActiveTab={setActiveTab} 
-        onOpenSettings={() => setSettingsOpen(true)} 
+      <TabsAgricultor
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        onOpenSettings={() => setSettingsOpen(true)}
       />
 
       {/* Popups */}
@@ -136,9 +141,9 @@ const DashboardAgricultor = () => {
       )}
 
       {/* Painel de Configurações */}
-      <SettingsPanel 
-        open={settingsOpen} 
-        onClose={() => setSettingsOpen(false)} 
+      <SettingsPanel
+        open={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
       />
     </div>
   );
