@@ -7,7 +7,7 @@ import StatsCards from "./StatsCards";
 import OrderList from "./OrderList";
 import BottomTabsTransportador from "./BottomTabsTransportador";
 import SettingsPanel from "../common/settings/SettingsPanel";
-import { settingsIcon } from "../../assets/assets";
+import { home, chatIcon, entregasIcon, statsIcon, settingsIcon } from "../../assets/assets";
 
 const DashboardTransportador = () => {
   const [orders, setOrders] = useState([]);
@@ -60,10 +60,10 @@ const DashboardTransportador = () => {
 
       <BottomTabsTransportador
         tabs={[
-          { name: "Entregas", icon: "🚛" },
-          { name: "Pedidos", icon: "📦" },
-          { name: "Chat", icon: "💬" },
-          { name: "Configurações", icon: <img src={settingsIcon} alt="Configurações" className="w-6 h-6" /> },
+          { name: "Entregas", icon: home },
+          { name: "Pedidos", icon: entregasIcon },
+          { name: "Chat", icon: chatIcon },
+          { name: "Configurações", icon: settingsIcon },
         ]}
         activeTab={activeTab}
         onTabClick={(tabName) => {

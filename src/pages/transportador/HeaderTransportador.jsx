@@ -11,13 +11,13 @@ const HeaderTransportador = ({ name, onOpenSettings }) => {
       </div>
 
       {/* ✅ Abre o painel de configurações */}
-      <button
+      {/* <button
         onClick={onOpenSettings}
         className="p-2 rounded-full bg-black/20 hover:bg-black/30 transition"
         title="Configurações"
       >
         ⚙️
-      </button>
+      </button> */}
     </div>
   );
 };

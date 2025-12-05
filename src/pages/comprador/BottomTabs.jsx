@@ -1,3 +1,5 @@
+import { home, chatIcon, entregasIcon, statsIcon, settingsIcon, carinha } from "../../assets/assets";
+
 const BottomTabs = ({ tabs, activeTab, onTabClick, cartItemsCount }) => (
   <div className="fixed bottom-0 left-0 right-0 flex bg-[#00241A]/95 rounded-t-3xl p-4 border border-white/30">
     {tabs.map(tab => (
@@ -12,7 +14,13 @@ const BottomTabs = ({ tabs, activeTab, onTabClick, cartItemsCount }) => (
       >
         <div className="relative">
           <img
-            src={tab.icon}
+            src={tab.icon || {
+              Feed: home,
+              Carrinho: carinha,
+              Pedidos: entregasIcon,
+              Chat: chatIcon,
+              Configurações: settingsIcon,
+            }[tab.name]}
             alt={tab.name}
             className={`w-7 h-7 rounded-2xl ${
               activeTab === tab.name ? "opacity-100" : "opacity-60"

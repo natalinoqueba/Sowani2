@@ -1,5 +1,5 @@
-const HeaderTransportador = ({ transporterName, onOpenSettings }) => {
-  const displayName = transporterName || "Transportador";
+const Header = ({ compradorName, onOpenSettings }) => {
+  const displayName = compradorName || "Comprador";
 
   return (
     <div className="flex items-center justify-between p-6 bg-gradient-to-r from-green-900 via-green-900 to-green-900 shadow-lg">
@@ -10,15 +10,15 @@ const HeaderTransportador = ({ transporterName, onOpenSettings }) => {
         <h1 className="text-2xl font-bold text-white">{displayName}</h1>
       </div>
       {/* ✅ Abre o SettingsPanel */}
-      <button
+      {/* <button
         onClick={onOpenSettings}
         className="p-2 rounded-full bg-black/20 hover:bg-black/30 transition"
         title="Configurações"
       >
         ⚙️
-      </button>
+      </button> */}
     </div>
   );
 };
 
-export default HeaderTransportador;
+export default Header;
