@@ -7,6 +7,8 @@ import StatsCards from "./StatsCards";
 import OrderList from "./OrderList";
 import BottomTabsTransportador from "./BottomTabsTransportador";
 import SettingsPanel from "../common/settings/SettingsPanel";
+import ChatTransportador from "./ChatTransportador";
+import PedidosTransportador from "./PedidosTransportador";
 import { home, chatIcon, entregasIcon, statsIcon, settingsIcon } from "../../assets/assets";
 
 const DashboardTransportador = () => {
@@ -48,15 +50,26 @@ const DashboardTransportador = () => {
       {/* ✅ Passa a função para o header */}
       <HeaderTransportador name="Joaquim" onOpenSettings={() => setSettingsOpen(true)} />
 
-      <StatsCards completedDeliveries={completedDeliveries} totalEarnings={totalEarnings} />
-      <OrderList
-        orders={orders.filter(o => o.status !== "entregue_confirmado")}
-        selectedOrder={selectedOrder}
-        onSelect={setSelectedOrder}
-        onAccept={handleAcceptDelivery}
-        onPickup={handlePickup}
-        onDeliver={handleDelivery}
-      />
+      {/* Aba Entregas */}
+      {activeTab === "Entregas" && (
+        <>
+          <StatsCards completedDeliveries={completedDeliveries} totalEarnings={totalEarnings} />
+          <OrderList
+            orders={orders.filter(o => o.status !== "entregue_confirmado")}
+            selectedOrder={selectedOrder}
+            onSelect={setSelectedOrder}
+            onAccept={handleAcceptDelivery}
+            onPickup={handlePickup}
+            onDeliver={handleDelivery}
+          />
+        </>
+      )}
+
+      {/* Aba Pedidos */}
+      {activeTab === "Pedidos" && <PedidosTransportador />}
+
+      {/* Aba Chat */}
+      {activeTab === "Chat" && <ChatTransportador />}
 
       <BottomTabsTransportador
         tabs={[
