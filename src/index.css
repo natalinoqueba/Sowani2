@@ -6,30 +6,70 @@ html.accessibility-large-text {
 	font-size: 18px;
 }
 
-/* High contrast: force darker background and bright text for readability */
+/* High contrast: strong contrast with dark backgrounds and bright text */
 html.accessibility-high-contrast body {
-	background-color: #000 !important;
-	color: #fff !important;
+	background-color: #000000 !important;
+	color: #e0e0e0 !important;
 }
 
+/* Links and interactive elements in high contrast */
 html.accessibility-high-contrast a,
 html.accessibility-high-contrast button,
 html.accessibility-high-contrast input,
 html.accessibility-high-contrast select,
 html.accessibility-high-contrast textarea {
-	color: #ffd07a !important;
-	border-color: #ffd07a !important;
+	color: #ffeb3b !important;
+	border-color: #ffeb3b !important;
+	background-color: #1a1a1a !important;
 }
 
-/* Make sure common background cards have sufficient contrast */
-html.accessibility-high-contrast .bg-white\/5 {
-	background-color: rgba(255,255,255,0.06) !important;
+/* Override semi-transparent backgrounds with dark gray */
+html.accessibility-high-contrast .bg-white\/5,
+html.accessibility-high-contrast .bg-white\/10,
+html.accessibility-high-contrast .bg-white\/20,
+html.accessibility-high-contrast .bg-black\/20,
+html.accessibility-high-contrast .bg-black\/30,
+html.accessibility-high-contrast .bg-black\/40,
+html.accessibility-high-contrast [class*="bg-"] {
+	background-color: #111111 !important;
 }
 
-/* Buttons and primary actions in high contrast */
+/* Primary action buttons in high contrast */
 html.accessibility-high-contrast .bg-\#E18003,
-html.accessibility-high-contrast .bg-\#e18003 {
-	background-color: #ffb84d !important;
-	color: #000 !important;
+html.accessibility-high-contrast .bg-\#e18003,
+html.accessibility-high-contrast [class*="bg-orange"],
+html.accessibility-high-contrast [class*="bg-green"] {
+	background-color: #ffeb3b !important;
+	color: #000000 !important;
+	border-color: #ffeb3b !important;
+}
+
+/* Hover states */
+html.accessibility-high-contrast button:hover,
+html.accessibility-high-contrast a:hover {
+	background-color: #ffeb3b !important;
+	color: #000000 !important;
+}
+
+/* Cards and panels - dark with light borders */
+html.accessibility-high-contrast .border {
+	border-color: #d0d0d0 !important;
+}
+
+/* Text emphasis colors */
+html.accessibility-high-contrast .text-gray-300,
+html.accessibility-high-contrast .text-gray-400,
+html.accessibility-high-contrast .text-white\/70 {
+	color: #d0d0d0 !important;
+}
+
+/* Headings in high contrast */
+html.accessibility-high-contrast h1,
+html.accessibility-high-contrast h2,
+html.accessibility-high-contrast h3,
+html.accessibility-high-contrast h4,
+html.accessibility-high-contrast h5,
+html.accessibility-high-contrast h6 {
+	color: #e0e0e0 !important;
 }
 
